@@ -4,13 +4,16 @@ import "package:flutter_demo/dart_base/fullWidget.dart";
 import "package:flutter_demo/dart_base/flutter_layout_page.dart";
 import "package:flutter_demo/dart_base/routeWidget.dart";
 import "package:flutter_demo/dart_base/gesture_page.dart";
+import "package:flutter_demo/dart_base/ResourcePage.dart";
 
 //void main() => runApp(MyApp());
 //void main() => runApp(lessWidget());
 //void main() => runApp(fullWidget());
 //void main() => runApp(flutterLayoutPage());
 //void main() => runApp(routeWidget());
-void main() => runApp(gesture_page());
+//void main() => runApp(gesture_page());
+void main() => runApp(ResourcePage());
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

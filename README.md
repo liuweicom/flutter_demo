@@ -37,6 +37,14 @@ container
 1.materialApp中定义的routes
 2.navigator跳转
 
+如何导入和使用flutter的资源文件:
+
+
+如何打开第三方app:
+下载第三方包url_launcher
+
+如何兼容androidX版本
+
 打包问题：
 flutter打包的安卓APK安装在高版本的手机上出现闪退
 我遇见的闪退问题是因为  我打包的时候用的是flutter build apk  这个命令
