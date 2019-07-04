@@ -10,9 +10,9 @@ import "package:flutter_demo/dart_base/ResourcePage.dart";
 //void main() => runApp(lessWidget());
 //void main() => runApp(fullWidget());
 //void main() => runApp(flutterLayoutPage());
-//void main() => runApp(routeWidget());
+void main() => runApp(routeWidget());
 //void main() => runApp(gesture_page());
-void main() => runApp(ResourcePage());
+//void main() => runApp(ResourcePage());
 
 
 class MyApp extends StatelessWidget {

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import "package:flutter_demo/dart_base/lessWidget.dart";
 import "package:flutter_demo/dart_base/fullWidget.dart";
 import "package:flutter_demo/dart_base/flutter_layout_page.dart";
-
+import 'package:flutter_demo/dart_base/PhotoApp.dart';
+import 'package:flutter_demo/dart_base/PhotoPage.dart';
+import 'package:flutter_demo/dart_base/AnimationPage.dart';
+import 'package:flutter_demo/dart_base/AnimationWidget.dart';
+import 'package:flutter_demo/dart_base/AnimationPageBuilder.dart';
 
 class routeWidget extends StatelessWidget {
   // This widget is the root of your application.
@@ -27,6 +31,11 @@ class routeWidget extends StatelessWidget {
         "less": (BuildContext context) => lessWidget(),
         "full": (BuildContext context) => fullWidget(),
         "layout": (BuildContext context) => flutterLayoutPage(),
+        "photo": (BuildContext context) => PhotoApp(),
+        "iamge": (BuildContext context) => PhotoPage(),
+        "animation": (BuildContext context) => AnimationPage(),
+        "animatedWidget": (BuildContext context) => AnimationPageWidget(),
+        "animatedBuilder": (BuildContext context) => AnimationPageBuilder(),
       },
     );
   }
@@ -75,6 +84,11 @@ class _RouteNavigatorState extends State<RouteNavigator> {
             _item("StaleLessWidget与基础组件", lessWidget(), 'less'),
             _item("StateFulWidget和其中常用组件", fullWidget(), 'full'),
             _item("常用基本布局组件", flutterLayoutPage(), 'layout'),
+            _item("拍照APP", PhotoApp(), 'photo'),
+            _item("图片控件开发", PhotoPage(), 'iamge'),
+            _item("动画", AnimationPage(), 'animation'),
+            _item("动画withAnimatedWidget", AnimationPageWidget(), 'animatedWidget'),
+            _item("动画withAnimatedBuilder", AnimationPageBuilder(), 'animatedBuilder'),
           ],
         ),
       ),
