@@ -108,6 +108,13 @@ child: new Icon(new IconData(0xf5566, fontFamily: 'devio'),size: 100.0,color: Co
 动画Animation开发指南
 基于tween的动画和基于物理的动画
 
+
+基于http实现网络操纵：
+
+异步：Futrue与FutrueBuilder使用技巧：
+JSON解析与复杂模型转换使用技巧：
+基于shared_preference本地存储操作：
+
 打包问题：
 flutter打包的安卓APK安装在高版本的手机上出现闪退
 我遇见的闪退问题是因为  我打包的时候用的是flutter build apk  这个命令
