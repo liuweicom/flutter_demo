@@ -112,8 +112,44 @@ child: new Icon(new IconData(0xf5566, fontFamily: 'devio'),size: 100.0,color: Co
 基于http实现网络操纵：
 
 异步：Futrue与FutrueBuilder使用技巧：
+Feture表示再接下得某个时间得值或者错误，借助Feture我们可以再Flutter实现异步操作，类似promise,提供了then 和catchError
+有两中状态：
+pending-执行中
+completed-执行结束，分两中情况，要么成功，要么失败
+
+Feture<R>then<R>(Feture<R> onValue(T value),{function onError});//第一个参数会成功调用，第二个参数错误时调用，不写第二个参数时，写catchError()
+
+feture.whenCompile: 再异步结束时调用，类似于try-catch后面的finally
+
+feture.timeout():设置异步超时时间
+用法：
+
+````
+fetchGet().timeout(Duration(milliseconds: 2000)).then((CommonModal value){
+                  setState((){
+                    responseString = '请求结果：\nicon：${value.title}\nicon:${value.icon}';
+                  });
+                }).catchError((err){
+                  setState((){
+                    print(err);
+                    responseString = "报错了";
+                  });
+                }).whenComplete((){
+                  print("end");
+                });
+````
+
+FetureBuilder：是一个将异步操作和异步UI更新结合在一块得类，通过它我们可以将网络请求，数据库读取等得结果更新到页面上
+里面得属性设置:
+feture：Feture对象表示此构造器当前链接得异步计算
+initialData: 表示一个非空得Feture完成钱得初始化
+builder：AsyncWidgetBuilder类型得回调函数，是一个基于异步交互构建widget得函数
+
+
 JSON解析与复杂模型转换使用技巧：
 基于shared_preference本地存储操作：
+shared_preferences是Flutter社区开发得一个本地数据存储：简单的额，异步的，持久化的key-value存储系统
+在Android它是基于sharedPreferences的，ios:NSUserDefaults的
 
 打包问题：
 flutter打包的安卓APK安装在高版本的手机上出现闪退

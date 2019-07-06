@@ -8,6 +8,8 @@ import 'package:flutter_demo/dart_base/AnimationPage.dart';
 import 'package:flutter_demo/dart_base/AnimationWidget.dart';
 import 'package:flutter_demo/dart_base/AnimationPageBuilder.dart';
 import 'package:flutter_demo/component/tabbar_page.dart';
+import 'package:flutter_demo/component/http_page/HttpPage.dart';
+import 'package:flutter_demo/component/http_page/http_fetureBuilder_page.dart';
 
 class routeWidget extends StatelessWidget {
   // This widget is the root of your application.
@@ -37,7 +39,9 @@ class routeWidget extends StatelessWidget {
         "animation": (BuildContext context) => AnimationPage(),
         "animatedWidget": (BuildContext context) => AnimationPageWidget(),
         "animatedBuilder": (BuildContext context) => AnimationPageBuilder(),
-        "tabbar": (BuildContext context) => TabbarPage()
+        "tabbar": (BuildContext context) => TabbarPage(),
+        "http": (BuildContext context) => HttpPage(),
+        "fetureBuilder": (BuildContext context) => FetureBuilderPage(),
       },
     );
   }
@@ -92,6 +96,8 @@ class _RouteNavigatorState extends State<RouteNavigator> {
             _item("动画withAnimatedWidget", AnimationPageWidget(), 'animatedWidget'),
             _item("动画withAnimatedBuilder", AnimationPageBuilder(), 'animatedBuilder'),
             _item("头部tabBar", TabbarPage(), 'tabbar'),
+            _item("基于Http实现网络操作", HttpPage(), 'http'),
+            _item("基于FetureBuilder实现http", FetureBuilderPage(), 'fetureBuilder'),
           ],
         ),
       ),
