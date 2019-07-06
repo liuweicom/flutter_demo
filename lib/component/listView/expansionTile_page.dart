@@ -52,7 +52,8 @@ class _ListViewPageState extends State<ListViewPage> {
   buildList(Map<String, List<String>> listCity) {
     List<Widget> widgets = [];
     listCity.keys.map((city){
-      widgets.push(_getItems(city, listCity[city]));
+      widgets.add(_getItems(city, listCity[city]));
+      return city;
     });
     return widgets;
   }

@@ -150,10 +150,19 @@ JSON解析与复杂模型转换使用技巧：
 基于shared_preference本地存储操作：
 shared_preferences是Flutter社区开发得一个本地数据存储：简单的额，异步的，持久化的key-value存储系统
 在Android它是基于sharedPreferences的，ios:NSUserDefaults的
+````
+final prefs = await SharedPreferences.getInstance();
+//设置数据
+pres.setInt("count",1);
+//读取数据
+pres.getInt("count");
+//删除数据
+prefs.remove("count");
+````
 
 打包问题：
 flutter打包的安卓APK安装在高版本的手机上出现闪退
-我遇见的闪退问题是因为  我打包的时候用的是flutter build apk  这个命令
+我遇见的闪退问题是因为  我打候用的是flutter build apk  这个命令
 可以改成 flutter build apk --target-platform android-arm64
 这个命令打包试试。
 
