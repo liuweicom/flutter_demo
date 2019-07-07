@@ -21,6 +21,10 @@ class _GradeViewPageState extends State<GradeViewPage> {
         ),
       ),
       body: GridView.count(
+        shrinkWrap: true,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 20.0,
+        padding: EdgeInsets.all(10),
         crossAxisCount: 2,
         children: _getItem(_listCity),
       )
@@ -36,6 +40,7 @@ class _GradeViewPageState extends State<GradeViewPage> {
   Widget _item(city) {
     return Container(
       height: 80,
+//      margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         color: Colors.blue
       ),

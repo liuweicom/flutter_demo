@@ -23,6 +23,7 @@ class _ListViewPageState extends State<ListViewPage> {
       ),
       body: Center(
         child: Container(
+          height: 800,
           child: Column(
             children: <Widget>[
             ListView(
@@ -32,15 +33,14 @@ class _ListViewPageState extends State<ListViewPage> {
           ),
         ),
       ),
+
     );
   }
 
   Widget _getItem(String city) {
-    return Container(
-      height: 80,
-        margin: EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(color: Colors.blue),
-      child: Text(city),
+    return ListTile(
+      title: Text(city),
+        subtitle: Text("城市")
     );
   }
 }

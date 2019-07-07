@@ -13,6 +13,7 @@ import 'package:flutter_demo/component/http_page/http_fetureBuilder_page.dart';
 import 'package:flutter_demo/component/listView/listView_page.dart';
 import 'package:flutter_demo/component/listView/gridView_page.dart';
 import 'package:flutter_demo/component/http_page/count_page.dart';
+import 'package:flutter_demo/component/webview_page/WebViewPage.dart';
 
 class routeWidget extends StatelessWidget {
   // This widget is the root of your application.
@@ -48,6 +49,7 @@ class routeWidget extends StatelessWidget {
         "listView": (BuildContext context) => ListViewPage(),
         "gridViewPage": (BuildContext context) => GradeViewPage(),
         "coutpage": (BuildContext context) => CountPage(),
+        "webView": (BuildContext context) => WebViewPage(),
       },
     );
   }
@@ -107,6 +109,7 @@ class _RouteNavigatorState extends State<RouteNavigator> {
             _item("ListView实现下拉刷新上拉加载", ListViewPage(), 'listView'),
             _item("GriderView基本布局", GradeViewPage(), 'gridViewPage'),
             _item("基于sharedPreference实现count计数", CountPage(), 'coutpage'),
+            _item("基于webView的引用", WebViewPage(), 'webView'),
           ],
         ),
       ),
