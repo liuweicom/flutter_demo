@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HttpPage extends StatefulWidget {
+class CountPage extends StatefulWidget {
   @override
-  _HttpPageState createState() => _HttpPageState();
+  _CountPageState createState() => _CountPageState();
 }
 
-class _HttpPageState extends State<HttpPage> {
-  String responseString =" ";
-  Future<CommonModal> fetchGet() async{
-    final response1 = await http.get("http://www.devio.org/io/flutter_app/json/test_common_model.json");
-    final result = json.decode(response1.body);
-    return CommonModal.fromJson(result);
-  }
+class _CountPageState extends State<CountPage> {
+  String responseString ="";
+  int count = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,22 +27,16 @@ class _HttpPageState extends State<HttpPage> {
         child: Container(
           child: Column(
             children: <Widget>[
-              InkWell(
-                onTap: (){
-                  fetchGet().timeout(Duration(milliseconds: 2000)).then((CommonModal value){
-                    setState((){
-                      responseString = '请求结果：\nicon：${value.title}\nicon:${value.icon}';
-                    });
-                  }).catchError((err){
-                    setState((){
-                      print(err);
-                      responseString = "报错了";
-                    });
-                  }).whenComplete((){
-                    print("end");
-                  });
-                },
+              RaisedButton(
                 child: Text("点我！"),
+                onPressed: ()async{
+                  final sharePreference = await SharedPreferences.getInstance();
+                 int count =  sharePreference.getInt("count")??0;
+                 setState(() {
+                   responseString = responseString + '点我第${count}\n';
+                 });
+                 sharePreference.setInt("count", count+1);
+                },
               ),
               Text(responseString),
             ],

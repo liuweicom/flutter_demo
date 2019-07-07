@@ -10,6 +10,9 @@ import 'package:flutter_demo/dart_base/AnimationPageBuilder.dart';
 import 'package:flutter_demo/component/tabbar_page.dart';
 import 'package:flutter_demo/component/http_page/HttpPage.dart';
 import 'package:flutter_demo/component/http_page/http_fetureBuilder_page.dart';
+import 'package:flutter_demo/component/listView/listView_page.dart';
+import 'package:flutter_demo/component/listView/gridView_page.dart';
+import 'package:flutter_demo/component/http_page/count_page.dart';
 
 class routeWidget extends StatelessWidget {
   // This widget is the root of your application.
@@ -42,6 +45,9 @@ class routeWidget extends StatelessWidget {
         "tabbar": (BuildContext context) => TabbarPage(),
         "http": (BuildContext context) => HttpPage(),
         "fetureBuilder": (BuildContext context) => FetureBuilderPage(),
+        "listView": (BuildContext context) => ListViewPage(),
+        "gridViewPage": (BuildContext context) => GradeViewPage(),
+        "coutpage": (BuildContext context) => CountPage(),
       },
     );
   }
@@ -98,6 +104,9 @@ class _RouteNavigatorState extends State<RouteNavigator> {
             _item("头部tabBar", TabbarPage(), 'tabbar'),
             _item("基于Http实现网络操作", HttpPage(), 'http'),
             _item("基于FetureBuilder实现http", FetureBuilderPage(), 'fetureBuilder'),
+            _item("ListView实现下拉刷新上拉加载", ListViewPage(), 'listView'),
+            _item("GriderView基本布局", GradeViewPage(), 'gridViewPage'),
+            _item("基于sharedPreference实现count计数", CountPage(), 'coutpage'),
           ],
         ),
       ),
