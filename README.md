@@ -1,6 +1,44 @@
-### flutter知识
+### [移动端开发新趋势Flutter](https://www.jianshu.com/p/1a90adc09e99)
+> Flutter是Google开发的新一代跨平台方案，Flutter可以实现写一份代码同时运行在iOS和Android设备上，并且提供很好的性能体验。Flutter使用Dart作为开发语言，这是一门简洁、强类型的编程语言。Flutter对于iOS和Android设备，提供了两套视觉库，可以针对不同的平台有不同的展示效果。
+
+在Google刚推出Flutter时，其发展很缓慢，终于在18年发布第一个Bate版之后迎来了爆发性增长，发布第一个Release版时增长速度更快。可以从Github上Star数据看出来这个增长的过程。在19年最新的Flutter 1.2版本中，已经开放Web支持的Beta版。
+
+[github start的增长率]()
+目前运用flutter的大型项目：
+- 阿里咸鱼
+- 头条的抖音
+- 腾讯的NOW直播
+整体框架
+Flutter可以理解为开发SDK或者工具包，其通过Dart作为开发语言，并且提供Material和Cupertino两套视觉控件，视图或其他和视图相关的类，都以Widget的形式表现。Flutter有自己的渲染引擎，并不依赖原生平台的渲染。Flutter还包含一个用C++实现的Engine，渲染也是包含在其中的。
+
+上图：
+[]()
+
+hot Reload
+Flutter支持亚秒级热重载，Android Studio和VSCode都支持Hot Reload的特性。但需要区分的是，热重载和热更新是不同的两个概念，热重载是在运行调试状态下，将新代码直接更新到执行中的二进制。而热更新是在上线后，通过Runtime或其他方式，改变现有执行逻辑。
+
+[跨平台方案对比](https://juejin.im/post/5d0bac156fb9a07ec56e7f15)
+
+|类型 |React Native |flutter  |
+|---:  |:---:|:---: |
+|语言|JavaScript(动态语言)|dart(伪动态语言的强类型语言)|
+|环境|JSCore|Flutter Engine|
+|发布时间|2015|2017
+|star|78k+|67k+
+|对比版本|0.59.9|1.6.3
+|空项目打包大小|Android  20M(可调整至 7.3M) /  IOS 1.6M|Android 5.2M / IOS 10.1M
+|代码产物|JS Bundle 文件|二进制文件
+|维护者|Facebook|Google
+|风格|响应式，Learn once, write anywhere|响应式，一次编写多平台运行
+|支持|Android、IOS、(PC)|Android、IOS、(Web/PC)
+|使用代表|京东、携程、腾讯课堂|闲鱼、美团B端
+|插件安装|npm插件 | pub插件|
+缺点：
+在跨平台开发中，就不得不说到接入`原有平台的支持`，比如 在 Android 平台上接入 x5 浏览器 、接入视频播放框架、接入 Lottie 动画框架等等。
+这一需求 `React Native 先天就支持`，甚至在社区就已经提供了类似 lottie-react-native  的项目。  因为 React Native 整个渲染过程都在原生层中完成，所以接入原有平台控件并不会是难事  ，同时因为发展多年，虽然各类第三方库质量参差不齐，但是`数量上的优势`还是很明显的。目前为止， Flutter 原生控件的接入上是`仍不如` React Native `稳定`。
 
 ### flutter安装：
+
 
 ### dart基础
 参考资料：[dart中文网](http://dart.goodev.org/guides/get-started)
@@ -15,10 +53,12 @@ file -> new -> flutter
 flutter create flutter_app 
 运行flutter run
 ````
+
 如何使用flutter包和网站
 [flutter包管理平台](https://pub.dev/)
 打开pubspec.yaml
 添加
+````
 dependencied:
     flutter_color_plugin: ^0.0.2
     
@@ -28,10 +68,15 @@ dependencied:
     引入包
     import "package:flutter_color_plugin/flutter_color_plugin.dart"
     
-statelessWidget和statefulWidget组件
+````    
+
+statelessWidget和statefulWidget组件:
 statelessWidget无状态组件：
+
 继承自statelessWidget的组件有哪些：
 container
+
+
 
 路由的两中方式：
 1.materialApp中定义的routes
@@ -159,6 +204,36 @@ pres.getInt("count");
 //删除数据
 prefs.remove("count");
 ````
+
+Flutter通信：
+Flutter定义了三种类的Channel：
+- basicMessageChannel: 用于传递字符串和半结构化的信息，持续通信，收到消息后可以回复此次消息。
+Native端：
+````
+BasicMessageChannel(BinaryMessenger messenger, String name, MessageCode<T> codec);
+//BinaryMessenger messenger-消息信使，是消息得发送和接受得工具
+//String name Channel的名字，也是唯一标识符
+//MessageCode<T> codec 消息的编解码器，有几种不同的类型：
+    BinaryCodec-最为简单的一中COdec,因为其返回值和入参的类型相同，均为二进制。由于为二进制，在传递内存数据快时不需要再次编解码
+    StringCodec-用于字符串与二进制之间的编解码，其编码格式UTF-8
+    JSONMessageCodec-用于基础数据与二进制数据之间的编解码，其支持基础数据类型以及列表，字典。
+    StandarMessageCodec-是BasicMessageChannel的默认编解码，其支持基础数据类型，二进制，列表，字典，其工作原理。
+
+void setMessageHandler(BasicMessageChannel.messageHandler<T> handler)
+ //让其接收Dart发来的消息，配合BinaryMessage完成消息的处理
+ //   BasicMessageChannel.messageHandler原型
+ //   public interface MessageHandler<T>{
+ //      void onMessage(T var1, BasicMessageChannel.Peply<T> vars)//var1是消息内容，var2是回复此消息的回调函数
+ //}
+ 
+ void send(T message)
+ void send(T message, BasicMessageChannel.Peply<T> callback)
+ //message是要传递给dart的，callback消息发送之后，收到dart回复的回调函数
+````
+
+BasicMessageChannel: 
+- MethodChannel:用地传递方法调用一次性通信：Flutter调用Native拍照
+- EventChannel: 用于数据流的通信，持续通信，收到消息后无法回府此次消息，通过常用于Native向dart的通信：手机电量变化，网络连接变化，陀螺仪，传感器
 
 打包问题：
 flutter打包的安卓APK安装在高版本的手机上出现闪退
