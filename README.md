@@ -314,10 +314,87 @@ BasicMessageChannel:
 - EventChannel: 用于数据流的通信，持续通信，收到消息后无法回府此次消息，通过常用于Native向dart的通信：手机电量变化，网络连接变化，陀螺仪，传感器
 
 
+
 flutter打包过程：
+1. 创建 keystore
+如果您有现有keystore，请跳至下一步。如果没有，请通过在运行以下命令来创建一个：
+[如何生产jks](https://www.jianshu.com/p/b28a5be05029)：
+打开Android studio 点击build->Generate Signed ApK -> 选择jks存放地址-> 创建jks -> 完成
+再通过命令将jks转换长keystore:
 
+- 首先把jks文件转为p12信息文件 
+````
+keytool -importkeystore -srckeystore F:\pra\flutter_demo\android\app\key.jks -srcstoretype JKS -deststoretype PKCS12 -destkeystore F:\pra\flutter_demo\android\app\key.p12
+````
 
+- 然后把p12文件转为keystore文件
+````
 
+keytool -v -importkeystore -srckeystore F:\pra\flutter_demo\android\app\key.p12 -srcstoretype PKCS12 -destkeystore F:\pra\flutter_demo\android\app\key.keystore -deststoretype JKS
+````
+
+````
+ keytool -genkey -v -keystore ~/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
+````
+2. 引用应用程序中的keystore
+创建一个名为<app dir>/android/key.properties的文件，其中包含对密钥库的引用：
+````
+ storePassword=<password from previous step>
+     keyPassword=<password from previous step>
+     keyAlias=key
+     storeFile=<location of the key store file, e.g. /Users/<user name>/key.jks>
+
+````     
+3. gradle中配置签名
+通过编辑<app dir>/android/app/build.gradle文件为您的应用配置签名
+
+替换:
+````
+android {
+````
+为：
+````
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+````
+替换:
+````
+buildTypes {
+    release {
+        // TODO: Add your own signing config for the release build.
+        // Signing with the debug keys for now, so `flutter run --release` works.
+        signingConfig signingConfigs.debug
+    }
+}
+````
+为:
+````
+signingConfigs {
+    release {
+        keyAlias keystoreProperties['keyAlias']
+        keyPassword keystoreProperties['keyPassword']
+        storeFile file(keystoreProperties['storeFile'])
+        storePassword keystoreProperties['storePassword']
+    }
+}
+buildTypes {
+    release {
+        signingConfig signingConfigs.release
+    }
+}
+````
+4. 使用命令行
+`cd <app dir> (<app dir> 为您的工程目录).`
+运行`flutter build apk (flutter build 默认会包含 --release选项).`
+报错了解决办法：更换命令：
+````
+flutter build apk --target-platform android-arm64
+````
+打包好的发布APK位于`<app dir>\build\app\outputs\apk\release。`
+ 
 
 ### 遇到过的坑：
 打包问题：
