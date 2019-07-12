@@ -23,24 +23,19 @@ class _ListViewPageState extends State<ListViewPage> {
       ),
       body: Center(
         child: Container(
-          height: 800,
-          child: Column(
-            children: <Widget>[
-            ListView(
-              children: (_listCity.map((city){return _getItem(city);})).toList(),
-            ),
-            ],
+          child: ListView(
+            children: (_listCity.map((city){return _getItem(city);})).toList(),
+          ),
           ),
         ),
-      ),
-
-    );
+      );
   }
 
   Widget _getItem(String city) {
+    print(city);
     return ListTile(
       title: Text(city),
-        subtitle: Text("城市")
+      subtitle: Text("城市")
     );
   }
 }

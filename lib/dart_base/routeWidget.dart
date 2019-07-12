@@ -14,6 +14,7 @@ import 'package:flutter_demo/component/listView/listView_page.dart';
 import 'package:flutter_demo/component/listView/gridView_page.dart';
 import 'package:flutter_demo/component/http_page/count_page.dart';
 import 'package:flutter_demo/component/webview_page/WebViewPage.dart';
+import 'package:flutter_demo/component/listView/expansionTile_page.dart';
 
 class routeWidget extends StatelessWidget {
   // This widget is the root of your application.
@@ -47,6 +48,7 @@ class routeWidget extends StatelessWidget {
         "http": (BuildContext context) => HttpPage(),
         "fetureBuilder": (BuildContext context) => FetureBuilderPage(),
         "listView": (BuildContext context) => ListViewPage(),
+        "ExpansionTilePage": (BuildContext context) => ExpansionTilePage(),
         "gridViewPage": (BuildContext context) => GradeViewPage(),
         "coutpage": (BuildContext context) => CountPage(),
         "webView": (BuildContext context) => WebViewPage(),
@@ -84,33 +86,36 @@ class _RouteNavigatorState extends State<RouteNavigator> {
         title: Text(widget.title),
       ),
       body: Container(
-        child: Column(
-          children: <Widget>[
-            SwitchListTile(
-              title: Text('${byName? "": "不"}通过路由跳转'),
-              value: byName,
-              onChanged: (value){
-                setState(() {
-                  byName = value;
-                });
-              },
-            ),
-            _item("StaleLessWidget与基础组件", lessWidget(), 'less'),
-            _item("StateFulWidget和其中常用组件", fullWidget(), 'full'),
-            _item("常用基本布局组件", flutterLayoutPage(), 'layout'),
-            _item("拍照APP", PhotoApp(), 'photo'),
-            _item("图片控件开发", PhotoPage(), 'iamge'),
-            _item("动画", AnimationPage(), 'animation'),
-            _item("动画withAnimatedWidget", AnimationPageWidget(), 'animatedWidget'),
-            _item("动画withAnimatedBuilder", AnimationPageBuilder(), 'animatedBuilder'),
-            _item("头部tabBar", TabbarPage(), 'tabbar'),
-            _item("基于Http实现网络操作", HttpPage(), 'http'),
-            _item("基于FetureBuilder实现http", FetureBuilderPage(), 'fetureBuilder'),
-            _item("ListView实现下拉刷新上拉加载", ListViewPage(), 'listView'),
-            _item("GriderView基本布局", GradeViewPage(), 'gridViewPage'),
-            _item("基于sharedPreference实现count计数", CountPage(), 'coutpage'),
-            _item("基于webView的引用", WebViewPage(), 'webView'),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SwitchListTile(
+                title: Text('${byName? "": "不"}通过路由跳转'),
+                value: byName,
+                onChanged: (value){
+                  setState(() {
+                    byName = value;
+                  });
+                },
+              ),
+              _item("StaleLessWidget与基础组件", lessWidget(), 'less'),
+              _item("StateFulWidget和其中常用组件", fullWidget(), 'full'),
+              _item("常用基本布局组件", flutterLayoutPage(), 'layout'),
+//              _item("拍照APP", PhotoApp(), 'photo'),
+              _item("图片控件开发", PhotoPage(), 'iamge'),
+              _item("动画", AnimationPage(), 'animation'),
+              _item("动画withAnimatedWidget", AnimationPageWidget(), 'animatedWidget'),
+              _item("动画withAnimatedBuilder", AnimationPageBuilder(), 'animatedBuilder'),
+              _item("头部tabBar", TabbarPage(), 'tabbar'),
+              _item("基于Http实现网络操作", HttpPage(), 'http'),
+              _item("基于FetureBuilder实现http", FetureBuilderPage(), 'fetureBuilder'),
+              _item("ListView实现下拉刷新上拉加载", ListViewPage(), 'listView'),
+              _item("GriderView基本布局", GradeViewPage(), 'gridViewPage'),
+              _item("带折叠的ListView", ExpansionTilePage(), 'ExpansionTilePage'),
+              _item("基于sharedPreference实现count计数", CountPage(), 'coutpage'),
+              _item("基于webView的引用", WebViewPage(), 'webView'),
+            ],
+          ),
         ),
       ),
     );

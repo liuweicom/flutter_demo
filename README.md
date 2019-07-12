@@ -62,35 +62,461 @@ flutter create flutter_app
 ````
 ###如何调试和使用开发工具
 
+
 ### dart基础
-参考资料：[dart中文网](http://dart.goodev.org/guides/get-started)
-dart常用语法：
+参考资料：
+- [dart中文网](http://dart.goodev.org/guides/get-started)
+- [dart常用语法](https://juejin.im/post/5b5005866fb9a04fea589561)：
 
-
-
-dart对于web开发着来说：
-
-
-
-
-
-
-如何使用flutter包和网站
-[flutter包管理平台](https://pub.dev/)
-打开pubspec.yaml
-添加
+#### dart常用语法
+> 在Dart中，一切都是对象，一切对象都是class的实例，哪怕是数字类型、方法甚至null都是对象，所有的对象都是继承自Object 
+ 
+- 注释：
 ````
-dependencied:
-    flutter_color_plugin: ^0.0.2
-    
-    运行flutter packages get或者点击packages get
-    
-    
-    引入包
-    import "package:flutter_color_plugin/flutter_color_plugin.dart"
-    
-````    
-[State生命周期](https://juejin.im/post/5b09fe716fb9a07aa114a6d9)：
+//
+
+/*
+*
+*/
+
+///
+````
+- 控制台输出： print
+
+- 字符串使用单引号或双引号均可，如'hello', "hello"
+字符串插入可以使用类似`$name`或`${name}`的语法
+
+- Dart中变量可以以字母或下划线开头，后面跟着任意组合的字符或数字
+
+- 数据类型：
+Dart有如下几种内建的数据类型：
+````
+numbers// int double 
+strings
+booleans
+lists(或者是arrays)//List List<String>
+maps// Map
+runes（UTF-32字符集的字符）
+symbols
+Function
+````
+
+- 如何定义变量
+
+你可以明确指定某个变量的类型，如int bool String，也可以用var或 dynamic来声明一个变量，Dart会自动推断其数据类型。
+````
+var a = 1;
+  int b = 10;
+  String s = "hello";
+  dynamic c = 0.5;
+````
+**_**注意：没有赋初始值的变量都会有默认值null**_**
+
+- final和const
+
+如果你绝不想改变一个变量，使用final或const，不要使用var或其他类型，一个被final修饰的变量只能被赋值一次，一个被const修饰的变量是一个编译时常量（const常量毫无疑问也是final常量）。可以这么理解：final修饰的变量是不可改变的，而const修饰的表示一个常量。
+注意：实例变量可以是final的但不能是const的
+````
+ final String name = 'zhangsan';
+  name = 'lisi'; // 编译不通过，被final修饰的是常量，不可重新赋值
+  const a = 0;
+  a = 1; // 错误
+````
+final和const的区别：
+
+区别一：final 要求变量只能初始化一次，并不要求赋的值一定是编译时常量，可以是常量也可以不是。而 const 要求在声明时初始化，并且赋值必需为编译时常量。
+
+区别二：final 是惰性初始化，即在运行时第一次使用前才初始化。而 const 是在编译时就确定值了。
+
+
+- 函数
+1. Dart是一个面向对象的编程语言，所以即使是函数也是一个对象，也有一种类型`Function`，这就意味着函数可以赋值给某个变量或者作为参数传给另外的函数。虽然Dart推荐你给函数加上返回值，但是不加返回值的函数同样可以正常工作，另外你还可以用`=>`代替`return`语句，
+2. 使用花括号将函数的参数括起来就是定义了`命名参数`,定义命名参数时，你可以以`{type paramName}`或者`{paramName: type}`两种方式声明参数，而调用命名参数时，需要以funcName(paramName: paramValue)的形式调用。
+3. `命名参数`的参数`并不是必须`的，如果要表示一个参数是必须的，`@required`注解来标识一个命名参数，这代表该参数是必须的，你不传则会报错
+4. 使用中括号[]括起来的参数是函数的`位置参数`，代表该参数可传可不传，位置参数只能放在函数的参数列表的最后面。
+5. 你可以为命名参数或者位置参数设置默认值
+6. ***不论在Dart还是Flutter中，必须都需要一个顶层的`main()`函数，它是`整个应用的入口函数`，main()函数的返回值是void
+7. 所有的函数`都有返回值`，如果没有指定return语句，那么该函数的返回值为`null`
+````
+// 声明返回值
+int add(int a, int b) {
+  return a + b;
+}
+
+// =>是return语句的简写
+add3(a, b) => a + b; 
+
+sayHello({String name}) {
+  print("hello, my name is $name");
+}
+
+sayHello2({name: String}) {
+  print("hello, my name is $name");
+}
+
+const Scrollbar({Key key, @required Widget child})//child是必须的
+
+sayHello(String name, int age, [String hobby]) { // 位置参数可以有多个，比如[String a, int b]
+  StringBuffer sb = new StringBuffer();
+  sb.write("hello, this is $name and I am $age years old");
+  if (hobby != null) {
+    sb.write(", my hobby is $hobby");
+  }
+  print(sb.toString());
+}
+
+// 命名参数的默认值
+int add({int a, int b = 3}) { // 不能写成：int add({a: int, b: int = 3})
+  return a + b;
+}
+
+// 位置参数的默认值
+int sum(int a, int b, [int c = 3]) {
+  return a + b + c;
+}
+
+````
+- 运算符
+Dart中的运算符与Java中的类似，比如++a a == b b ? a : b，但是也有一些与Java不太一样的运算符
+````
+main() {
+  // 与Java相同的运算符操作
+
+  int a = 1;
+  ++a;
+  a++;
+  var b = 1;
+  print(a == b);  // false
+  print(a * b); // 3
+  bool real = false;
+  real ? print('real') : print('not real'); // not real
+  print(real && a == b); // false
+  print(real || a == 3); // true
+  print(a != 2); // true
+  print(a <= b); // false
+  var c = 9;
+  c += 10;
+  print("c = $c"); // c = 19
+  print(1<<2); // 4
+
+  // 与Java不太一样的运算符操作
+
+  // is运算符用于判断一个变量是不是某个类型的数据
+  // is!则是判断变量不是某个类型的数据
+  var s = "hello";
+  print(s is String); // true
+  var num = 6;
+  print(num is! String); // true
+
+  // ~/才是取整运算符，如果使用/则是除法运算，不取整
+  int k = 1;
+  int j = 2;
+  print(k / j); // 0.5
+  print(k ~/ j); // 0
+
+  // as运算符类似于Java中的cast操作，将一个对象强制类型转换
+  (emp as Person).teach();
+
+  // ??=运算符 如果 ??= 运算符前面的变量为null，则赋值，否则不赋值
+  var param1 = "hello", param2 = null;
+  param1 ??= "world";
+  param2 ??= "world";
+  print("param1 = $param1"); // param1 = hello
+  print("param2 = $param2"); // param2 = world
+  
+  // ?.运算符
+  var str1 = "hello world";
+  var str2 = null;
+  print(str1?.length); // 11
+  print(str2?.length); // null 
+  print(str2.length); // 报错
+}
+
+class Person {
+  eat() {
+    print("I am eating...");
+  }
+
+  sleep() {
+    print("I am sleeping...");
+  }
+
+  study() {
+    print("I am studying...");
+  }
+}
+
+main() {
+  // 依次打印
+  //  I am eating...
+  //  I am sleeping...
+  //  I am studying...
+  //使用..调用某个对象的方法（或者成员变量）时，返回值是这个对象本身
+  new Person()..eat()
+      ..sleep()
+      ..study();
+}
+
+
+````
+- 控制流程
+`if / else` `switch` `for /while` `try / catch`语句跟Java中都类似，try / catch语句可能稍有不同
+````
+main() {
+  // if else语句
+  int score = 80;
+  if (score < 60) {
+    print("so bad!");
+  } else if (score >= 60 && score < 80) {
+    print("just so so!");
+  } else if (score >= 80) {
+    print("good job!");
+  }
+
+  // switch语句
+  String a = "hello";
+  // case语句中的数据类型必须是跟switch中的类型一致
+  switch (a) {
+    case "hello":
+      print("haha");
+      break;
+    case "world":
+      print("heihei");
+      break;
+    default:
+      print("WTF");
+  }
+
+  // for语句
+  List<String> list = ["a", "b", "c"];
+  for (int i = 0; i < list.length; i++) {
+    print(list[i]);
+  }
+  for (var i in list) {
+    print(i);
+  }
+  // 这里的箭头函数参数必须用圆括号扩起来
+  list.forEach((item) => print(item));
+
+  // while语句
+  int start = 1;
+  int sum = 0;
+  while (start <= 100) {
+    sum += start;
+    start++;
+  }
+  print(sum);
+
+  // try catch语句
+  try {
+    print(1 ~/ 0);
+  } catch (e) {
+    // IntegerDivisionByZeroException
+    print(e);
+  }
+  try {
+    1 ~/ 0;
+  } on IntegerDivisionByZeroException { // 捕获指定类型的异常
+    print("error"); // 打印出error
+  } finally {
+    print("over"); // 打印出over
+  }
+}
+
+````
+- 类
+
+类的定义个构造方法：
+1. Dart中的类没有访问控制，所以你不需要用`private`, `protected`, `public等修饰成员变量或成员函数`
+2. 类除了有跟`类名相同的构造方法`外，还可以添加`命名的构造方法`。
+3. Dart中使用extends关键字做类的继承，如果一个类`只有命名的构造方法`，在继承时需要注意,必须调用父类命名的构造方法。格式如下这种，super写在花括号外面。
+4. 上面的代码中已经有了一些类的成员方法的定义，这些定义方式跟Java很类似，你可以为某个类的成员变量提供`getter/setter`方法（至今没用上过）
+
+````
+class Person {
+  String name;
+  int age;
+  String gender;
+  Person(this.name, this.age, this.gender);//
+  sayHello() {
+    print("hello, this is $name, I am $age years old, I am a $gender");
+  }
+}
+
+ var p = new Person("zhangsan", 20, "male");
+  p.sayHello(); // hello, this is zhangsan, I am 20 years old, I am a male
+  p.age = 50;
+  p.gender = "female";
+  p.sayHello(); // hello, this is zhangsan, I am 50 years old, I am a female
+
+//命名构造
+class Point {
+  num x, y;
+  Point(this.x, this.y);
+  // 类的命名构造方法
+  Point.origin() {
+    x = 0;
+    y = 0;
+  }
+}
+
+main() {
+  // 调用Point类的命名构造方法origin()
+  var p = new Point.origin();
+  var p2 = new Point(1, 2);
+}
+
+class Human {
+  String name;
+  Human.fromJson(Map data) {
+    print("Human's fromJson constructor");
+  }
+}
+
+class Man extends Human {
+  Man.fromJson(Map data) : super.fromJson(data) {
+    print("Man's fromJson constructor");
+  }
+}
+
+//getter setter
+class Rectangle {
+  num left, top, width, height;
+
+  // 构造方法传入left, top, width, height几个参数
+  Rectangle(this.left, this.top, this.width, this.height);
+
+  // right, bottom两个成员变量提供getter/setter方法
+  num get right => left + width;
+  set right(num value) => left = value - width;
+  num get bottom => top + height;
+  set bottom(num value) => top = value - height;
+}
+
+````
+抽象类和抽象方法
+
+abstract修饰一个类，则这个类是抽象类，抽象类中可以有抽象方法和非抽象方法，抽象方法没有方法体，需要子类去实现，
+````
+abstract class Doer {
+  // 抽象方法，没有方法体，需要子类去实现
+  void doSomething();
+  // 普通的方法
+  void greet() {
+    print("hello world!");
+  }
+}
+
+class EffectiveDoer extends Doer {
+  // 实现了父类的抽象方法
+  void doSomething() {
+    print("I'm doing something...");
+  }
+}
+````
+枚举类
+使用enum关键字定义一个枚举类
+````
+enum Color { red, green, blue }
+````
+静态成员变量和静态成员方法
+````
+// 类的静态成员变量和静态成员方法
+class Cons {
+  static const name = "zhangsan";
+  static sayHello() {
+    print("hello, this is ${Cons.name}");
+  }
+}
+
+main() {
+  Cons.sayHello(); // hello, this is zhangsan
+  print(Cons.name); // zhangsan
+}
+
+````
+mixins
+
+mixins是一个重复使用类中代码的方式（不是很理解）
+````
+class A {
+  a() {
+    print("A's a()");
+  }
+}
+
+class B {
+  b() {
+    print("B's b()");
+  }
+}
+
+// 使用with关键字，表示类C是由类A和类B混合而构成
+class C = A with B;
+
+main() {
+  C c = new C();
+  c.a(); // A's a()
+  c.b(); // B's b()
+}
+````
+ 
+- dart库导入
+1. 导入第三方库
+2. 导入自己写的代码，使用相对路径即可
+3. 使用as为关键字为导入的某一个包设置前缀，或者别名
+4. 可以再导入包时使用show hide关键词来导入某个包中的部分功能
+5. 导入包时使用deferred as可以让这个包懒加载，懒加载的包只会在该包被使用的时得到加载，而不是一开始就加载
+
+````
+import 'dart:html';
+
+import './util.dart';
+
+import 'package:lib1/lib1.dart';
+import 'package:lib2/lib2.dart' as lib2;
+
+// Uses Element from lib1.
+Element element1 = Element();
+
+// Uses Element from lib2.
+lib2.Element element2 = lib2.Element();
+
+// 只导入foo
+import 'package:lib1/lib1.dart' show foo;
+
+// 导入除了foo的所有其他部分
+import 'package:lib2/lib2.dart' hide foo;
+
+import 'package:greetings/hello.dart' deferred as hello;
+````
+
+- 异步
+提供了类似es7中async await等异步操作
+````
+Future checkVersion() async {
+  var version = await lookUpVersion();
+  // Do something with version
+}
+````
+
+
+#### 构建用户常用组件：
+- 布局相关组件：
+推荐相关文章：[flutter布局](https://juejin.im/post/5bab35ff5188255c3272c228)
+
+![基本布局](/assets/note/基本布局.jpg)
+
+- statelessWidget和statefulWidget组件
+[]()
+statelessWidget无状态组件：
+
+继承自statelessWidget的组件有哪些：
+container
+
+
+
+- [State生命周期](https://juejin.im/post/5b09fe716fb9a07aa114a6d9)：
 
 State的生命周期有四种状态：
 
@@ -101,7 +527,7 @@ defunct：State.dispose被调用后，State对象不能够被构建。
 [生命周期图片]()
 完整生命周期如下：
 
-3.2.2 setState
+ setState
 
 State中比较重要的一个方法是setState，当修改状态时，widget会被更新。比方说点击CheckBox，会出现选中和非选中状态之间的切换，就是通过修改状态来达到的。
 查看setState源码，在一些异常的情况下将会抛出异常：
@@ -130,31 +556,34 @@ _element.markNeedsBuild();
 
 
 
-statelessWidget和statefulWidget组件
-
-statelessWidget无状态组件：
-
-继承自statelessWidget的组件有哪些：
-container
-
-
-基本手势：
-
-
-路由的两中方式：
-1.materialApp中定义的routes
-2.navigator跳转
 
 
 
 
+- 如何使用flutter包和网站
+[flutter包管理平台](https://pub.dev/)
+打开pubspec.yaml
+添加
+````
+dependencied:
+    flutter_color_plugin: ^0.0.2
+    
+    运行flutter packages get或者点击packages get
+    
+    
+    引入包
+    import "package:flutter_color_plugin/flutter_color_plugin.dart"
+    
+````    
 
-如何兼容androidX版本
+- 基本手势：
 
-如何导入和使用flutter的资源文件:
+
+
+
+- 如何导入和使用flutter的资源文件:
 
 图片空间开发详解：
-
 Image支持如下几种类型的构造函数：
 new Image 用于imageProvider获取图像
 new Image.asset使用key从assetBundle获取的图像
@@ -211,29 +640,29 @@ child: new Icon(new IconData(0xf5566, fontFamily: 'devio'),size: 100.0,color: Co
 
 
 
-如何设置图片的placeholder:
+- 如何设置图片的placeholder:
 
 安装transparent_image插件：
 
 
-动画Animation开发指南
-基于tween的动画和基于物理的动画
 
 
-基于http实现网络操纵：
+- 基于http实现网络操纵：
 
 
-异步：Futrue与FutrueBuilder使用技巧：
+1. 异步：Futrue与FutrueBuilder使用技巧：
 Feture表示再接下得某个时间得值或者错误，借助Feture我们可以再Flutter实现异步操作，类似promise,提供了then 和catchError
 有两中状态：
 pending-执行中
 completed-执行结束，分两中情况，要么成功，要么失败
-
+````
 Feture<R>then<R>(Feture<R> onValue(T value),{function onError});//第一个参数会成功调用，第二个参数错误时调用，不写第二个参数时，写catchError()
+````
 
 feture.whenCompile: 再异步结束时调用，类似于try-catch后面的finally
 
 feture.timeout():设置异步超时时间
+
 用法：
 
 ````
@@ -253,13 +682,14 @@ fetchGet().timeout(Duration(milliseconds: 2000)).then((CommonModal value){
 
 FetureBuilder：是一个将异步操作和异步UI更新结合在一块得类，通过它我们可以将网络请求，数据库读取等得结果更新到页面上
 里面得属性设置:
-feture：Feture对象表示此构造器当前链接得异步计算
-initialData: 表示一个非空得Feture完成钱得初始化
-builder：AsyncWidgetBuilder类型得回调函数，是一个基于异步交互构建widget得函数
+
+1.  feture：Feture对象表示此构造器当前链接得异步计算
+2.  initialData: 表示一个非空得Feture完成钱得初始化
+3.  builder：AsyncWidgetBuilder类型得回调函数，是一个基于异步交互构建widget得函数
 
 
 
-JSON解析与复杂模型转换使用技巧：
+2. JSON解析与复杂模型转换使用技巧：
 
 基于shared_preference本地存储操作：
 shared_preferences是Flutter社区开发得一个本地数据存储：简单的额，异步的，持久化的key-value存储系统
@@ -274,18 +704,33 @@ pres.getInt("count");
 prefs.remove("count");
 ````
 
-Android如何内嵌flutter：
+- 路由的两中方式：
+1. materialApp中定义的routes
+2. navigator跳转
 
-flutter如何内嵌webView:
+- Android如何内嵌flutter：
 
-如何打开第三方app:
+
+- flutter如何内嵌webView:
+
+
+
+
+
+- 动画Animation开发指南
+基于tween的动画和基于物理的动画
+
+
+- 如何兼容androidX版本
+
+- 如何打开第三方app:
 下载第三方包url_launcher
 
 
 
-Flutter通信：
+- Flutter通信：
 Flutter定义了三种类的Channel：
-- basicMessageChannel: 用于传递字符串和半结构化的信息，持续通信，收到消息后可以回复此次消息。
+1. basicMessageChannel: 用于传递字符串和半结构化的信息，持续通信，收到消息后可以回复此次消息。
 Native端：
 ````
 BasicMessageChannel(BinaryMessenger messenger, String name, MessageCode<T> codec);
@@ -310,24 +755,25 @@ void setMessageHandler(BasicMessageChannel.messageHandler<T> handler)
 ````
 
 BasicMessageChannel: 
-- MethodChannel:用地传递方法调用一次性通信：Flutter调用Native拍照
-- EventChannel: 用于数据流的通信，持续通信，收到消息后无法回府此次消息，通过常用于Native向dart的通信：手机电量变化，网络连接变化，陀螺仪，传感器
+
+2. MethodChannel:用地传递方法调用一次性通信：Flutter调用Native拍照
+3. EventChannel: 用于数据流的通信，持续通信，收到消息后无法回府此次消息，通过常用于Native向dart的通信：手机电量变化，网络连接变化，陀螺仪，传感器
 
 
 
-flutter打包过程：
+- flutter打包过程：
 1. 创建 keystore
 如果您有现有keystore，请跳至下一步。如果没有，请通过在运行以下命令来创建一个：
 [如何生产jks](https://www.jianshu.com/p/b28a5be05029)：
 打开Android studio 点击build->Generate Signed ApK -> 选择jks存放地址-> 创建jks -> 完成
 再通过命令将jks转换长keystore:
 
-- 首先把jks文件转为p12信息文件 
+ 首先把jks文件转为p12信息文件 
 ````
 keytool -importkeystore -srckeystore F:\pra\flutter_demo\android\app\key.jks -srcstoretype JKS -deststoretype PKCS12 -destkeystore F:\pra\flutter_demo\android\app\key.p12
 ````
 
-- 然后把p12文件转为keystore文件
+然后把p12文件转为keystore文件
 ````
 
 keytool -v -importkeystore -srckeystore F:\pra\flutter_demo\android\app\key.p12 -srcstoretype PKCS12 -destkeystore F:\pra\flutter_demo\android\app\key.keystore -deststoretype JKS
@@ -395,6 +841,8 @@ flutter build apk --target-platform android-arm64
 ````
 打包好的发布APK位于`<app dir>\build\app\outputs\apk\release。`
  
+flutter如何迁移至web中：
+
 
 ### 遇到过的坑：
 打包问题：

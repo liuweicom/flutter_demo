@@ -1,29 +1,15 @@
 import "package:flutter/material.dart";
 
-class fullWidget extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'StateFulWidget和其中常用组件',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'StateFulWidget和其中常用组件'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class fullWidget extends StatefulWidget {
+  fullWidget({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _fullWidgetState createState() => _fullWidgetState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _fullWidgetState extends State<fullWidget> {
   final pageController = new PageController();
   int tabIndex = 0;
 //  Widget _generatePageView(context, index) {
@@ -59,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("StateFulWidget和其中常用组件"),
         leading: GestureDetector(
           onTap: (){
             Navigator.pop(context);

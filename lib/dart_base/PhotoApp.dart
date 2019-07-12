@@ -9,7 +9,7 @@ class PhotoApp extends StatefulWidget {
 }
 
 class _PhotoAppState extends State<PhotoApp> {
-  List<File> _images;
+  List<File> _images = [];
 
   Future<bool> checkAndRequestCameraPermissions() async {
     PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
@@ -24,16 +24,26 @@ class _PhotoAppState extends State<PhotoApp> {
 
   Future getImage(bool isTakePhoto) async {
     Navigator.pop(context);//关闭底部弹出框
-    if(await checkAndRequestCameraPermissions()){
-      var image = await ImagePicker.pickImage(source: isTakePhoto?ImageSource.camera:ImageSource.gallery);
+//    if(await checkAndRequestCameraPermissions()){
+//      print("权限不够！");
+//      var image = await ImagePicker.pickImage(source: isTakePhoto?ImageSource.camera:ImageSource.gallery);
+//
+//      if(image == null){
+//        throw Exception("图片不存在！");
+//      }else{
+//        setState(() {
+//          _images.add(image);
+//        });
+//      }
+//    }
+    var image = await ImagePicker.pickImage(source: isTakePhoto?ImageSource.camera:ImageSource.gallery);
 
-      if(image == null){
-        throw Exception("图片不存在！");
-      }else{
-        setState(() {
-          _images.add(image);
-        });
-      }
+    if(image == null){
+      throw Exception("图片不存在！");
+    }else{
+      setState(() {
+        _images.add(image);
+      });
     }
   }
 
@@ -41,7 +51,7 @@ class _PhotoAppState extends State<PhotoApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Picker Example'),
+        title: Text('拍照片或者打开相册'),
         leading: GestureDetector(
           onTap: (){
             Navigator.pop(context);
@@ -53,9 +63,7 @@ class _PhotoAppState extends State<PhotoApp> {
         child: Wrap(
           spacing: 6,
           runSpacing: 4,
-          children: <Widget>[
-            getImages()
-          ],
+          children: getImages(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -84,7 +92,7 @@ class _PhotoAppState extends State<PhotoApp> {
   _item(String s, bool param1) {
     return GestureDetector(
       child: ListTile(
-        leading: Icon(param1?Icons.camera_alt:Icons.photo_library),
+        leading: Icon(param1?Icons.camera_alt : Icons.photo_library),
         title: Text(s),
         onTap: ()=>getImage(param1),
       ),
@@ -119,7 +127,7 @@ class _PhotoAppState extends State<PhotoApp> {
           )
         ],
       );
-    });
+    }).toList();
   }
 
 }

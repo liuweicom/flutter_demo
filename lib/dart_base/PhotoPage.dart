@@ -22,12 +22,14 @@ class _PhotoPageState extends State<PhotoPage> {
         body: Center(
             child: Stack(
           children: <Widget>[
-//        Center(
-//          child: CircularProgressIndicator(),
-//        ),
-//        Center(
-//          child: FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: 'http://www.devio.org/img/avatar.png'),
-//        ),
+            Center(
+              child: CircularProgressIndicator(),
+            ),
+            Center(
+              child: FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: 'http://www.devio.org/img/avatar.png'),
+            ),
             Center(
               child: FadeInImage.assetNetwork(
                   placeholder: 'assets/image/loading.gif',

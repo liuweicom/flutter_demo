@@ -15,7 +15,6 @@ import "package:flutter/material.dart";
 //}
 
 class flutterLayoutPage extends StatefulWidget {
-
   @override
   _flutterLayoutPageState createState() => _flutterLayoutPageState();
 }
@@ -43,7 +42,7 @@ class _flutterLayoutPageState extends State<flutterLayoutPage> {
       appBar: AppBar(
         title: Text('常用基本布局组件'),
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back),
