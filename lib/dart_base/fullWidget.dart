@@ -10,34 +10,19 @@ class fullWidget extends StatefulWidget {
 }
 
 class _fullWidgetState extends State<fullWidget> {
-  final pageController = new PageController();
+  final pageController = new PageController(initialPage: 0);
   int tabIndex = 0;
-//  Widget _generatePageView(context, index) {
-//    return PageView.builder(
-//      controller: pageController,
-//      itemBuilder: (context, int index) {
-//        return Container(
-//          width: 100,
-//            height: 100,
-//            child: Column(
-//          children: <Widget>[
-//            Text('$index', style: TextStyle(fontSize: 20)),
-//          ],
-//        ));
-//      },
-//    );
-//  }
 
   Future<Null> handleRefresh() async {
-    await Future.delayed(Duration(microseconds: 1));
+    await Future.delayed(Duration(seconds: 5));
     return null;
   }
 
-  _item(String title,Color color){
+  _item(String title, Color color) {
     return Container(
-    alignment: Alignment.center,
+      alignment: Alignment.center,
       decoration: BoxDecoration(color: color),
-      child: Text(title,style: TextStyle(fontSize: 22,color: Colors.white70)),
+      child: Text(title, style: TextStyle(fontSize: 22, color: Colors.white70)),
     );
   }
 
@@ -47,8 +32,12 @@ class _fullWidgetState extends State<fullWidget> {
       appBar: AppBar(
         title: Text("StateFulWidget和其中常用组件"),
         leading: GestureDetector(
-          onTap: (){
+
+          onTap: () {
             Navigator.pop(context);
+          },
+          onLongPress: (){
+            print("长按！");
           },
           child: Icon(Icons.arrow_back),
         ),
@@ -60,6 +49,7 @@ class _fullWidgetState extends State<fullWidget> {
             decoration: BoxDecoration(color: Colors.white70),
             child: Column(
               children: <Widget>[
+
                 Text("雄安生活"),
                 Image(
                   image: AssetImage("assets/image/pic_1.jpg"),
@@ -81,6 +71,7 @@ class _fullWidgetState extends State<fullWidget> {
                     height: 100,
                     decoration: BoxDecoration(color: Colors.blue),
                     child: PageView(
+                      controller: pageController,
                       children: <Widget>[
                         Text("雄安生活"),
                         Text("雄安资讯"),
@@ -95,7 +86,7 @@ class _fullWidgetState extends State<fullWidget> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           print(index);
-//          pageController.animateToPage(index, duration: null, curve: null);
+          pageController.jumpToPage(index);
           //, Duration(seconds: 1), Curve()
           setState(() {
             tabIndex = index;

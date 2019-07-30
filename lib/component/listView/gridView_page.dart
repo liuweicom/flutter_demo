@@ -25,7 +25,7 @@ class _GradeViewPageState extends State<GradeViewPage> {
         crossAxisSpacing: 10,
         mainAxisSpacing: 20.0,
         padding: EdgeInsets.all(10),
-        crossAxisCount: 2,
+        crossAxisCount: 3,
         children: _getItem(_listCity),
       )
     );

@@ -57,7 +57,7 @@ class _flutterLayoutPageState extends State<flutterLayoutPage> {
               child: Column(
                 children: <Widget>[
                   ClipOval(
-                    //原型的
+                    //强制控制尺寸盒子
                     child: SizedBox(
                       width: 100,
                       height: 100,
@@ -76,7 +76,7 @@ class _flutterLayoutPageState extends State<flutterLayoutPage> {
                   ),
                   Padding(
                       padding: EdgeInsets.all(10),
-                      child: ClipRRect(
+                      child: ClipRRect(//剪切元素的边界，这里类似CSS的border-radius属性；
                         //设置圆角
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Opacity(
@@ -101,17 +101,18 @@ class _flutterLayoutPageState extends State<flutterLayoutPage> {
                   ),
                   TextField(
                     decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                         hintText: "请输入",
                         hintStyle: TextStyle(fontSize: 15)),
                   ),
                   Container(
                     margin: EdgeInsets.all(10),
                     height: 100,
-                    decoration: BoxDecoration(color: Colors.transparent),
+                    decoration: BoxDecoration(color: Colors.red),//可以控制背景色，图片，边框，圆角大小，阴影，过渡效果，形状
                     child: PhysicalModel(
-                        //使显示图形据有圆角
+                        //使显示图形据有圆角,加阴影
                         color: Colors.transparent,
+                        elevation: 6,
                         borderRadius: BorderRadius.circular(15),
                         clipBehavior: Clip.antiAlias, //抗锯齿
                         child: PageView(
@@ -124,7 +125,7 @@ class _flutterLayoutPageState extends State<flutterLayoutPage> {
                   ),
                   Column(
                     children: <Widget>[
-                      FractionallySizedBox(
+                      FractionallySizedBox(//百分比尺寸盒子
                         widthFactor: 1,
                         child: Container(
                           //实际上没有撑满，只有内容的宽度
@@ -167,6 +168,12 @@ class _flutterLayoutPageState extends State<flutterLayoutPage> {
                       _chip("预约班车"),
                       _chip("公务出行"),
                       _chip("百度无人车"),
+                      _chip("共享单车"),
+                      _chip("小邮局"),
+                      _chip("共享单车"),
+                      _chip("小邮局"),
+                      _chip("共享单车"),
+                      _chip("小邮局"),
                       _chip("共享单车"),
                       _chip("小邮局"),
                     ],

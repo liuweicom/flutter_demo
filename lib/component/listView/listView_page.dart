@@ -24,6 +24,7 @@ class _ListViewPageState extends State<ListViewPage> {
       body: Center(
         child: Container(
           child: ListView(
+//            scrollDirection: Axis.horizontal,
             children: (_listCity.map((city){return _getItem(city);})).toList(),
           ),
           ),
@@ -33,9 +34,15 @@ class _ListViewPageState extends State<ListViewPage> {
 
   Widget _getItem(String city) {
     print(city);
-    return ListTile(
-      title: Text(city),
-      subtitle: Text("城市")
+    return Container(
+//      width: 50,
+      height: 80,
+      margin: EdgeInsets.only(right: 10,bottom: 10),
+      decoration: BoxDecoration(color: Colors.blue),
+      child: ListTile(
+          title: Text(city,style: TextStyle(color: Colors.white),),
+          subtitle: Text("城市")
+      ),
     );
   }
 }
